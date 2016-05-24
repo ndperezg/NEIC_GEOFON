@@ -24,7 +24,7 @@ def neic_event_printer(file_, source, date, lat, lon, dep, title):
 
 #Parsing the url's
 link_usgs = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.atom"
-lin_usgs2 = "http://earthquake.usgs.gov/"
+link_usgs2 = "http://earthquake.usgs.gov/"
 link_gfz = "http://geofon.gfz-potsdam.de/eqinfo/list.php?fmt=rss"
 link_gfz2 = "http://geofon.gfz-potsdam.de/eqinfo/list.php"
 neic = feedparser.parse(link_usgs)
