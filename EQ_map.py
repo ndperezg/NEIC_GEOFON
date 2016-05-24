@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def EQ_map(lon,lat,M,source, region, ID):
-	llcrnrlon, llcrnrlat, urcrnrlon, urcrnrlat = -84, -5, -64, 15 
-	if  (llcrnrlon < lon < urcrnrlon) and (llcrnrlat < lat < urcrnrlat):
+	llcrnrlon, llcrnrlat, urcrnrlon, urcrnrlat = -84, -7, -64, 15 
+	if  (llcrnrlon < float(lon) < urcrnrlon) and (llcrnrlat < float(lat) < urcrnrlat):
 		map = Basemap(llcrnrlon=llcrnrlon,llcrnrlat=llcrnrlat,urcrnrlon=urcrnrlon,urcrnrlat=urcrnrlat, projection='cyl', resolution=None)
 		x, y = map(float(lon), float(lat))
 		map.scatter(x, y, 500, color="yellow", marker="*", edgecolor="k", zorder=3)
@@ -26,6 +26,6 @@ def EQ_map(lon,lat,M,source, region, ID):
 		plt.savefig(name)
 		#plt.show()				
 	return name
-#EQ_map(-72,4,10,'NEIC')
-#figura = EQ_map(50,50,'5','NEIC', 'Banda Sea', 'figura')	
+#EQ_map('-78.7','-2.73','5','USGS', 'Ecuador', 'prueba1')
+#figura = EQ_map(50,50,'5','GFZ', 'Banda Sea', 'prueba2')	
 #print figura

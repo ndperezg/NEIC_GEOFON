@@ -31,7 +31,7 @@ def correo(source,date,hour,lat,lon,dep,M,region,ID,mapa, link):
     print 'Preparando correo...'
     remitente = datosr[0] 
     passw= datosr[1]
-    destinatario = "hchamorro@sgc.gov.co, dsiervo@sgc.gov.co, nperez@sgc.gov.co"
+    destinatario = "hchamorro@sgc.gov.co, l_analistas-rsnc@sgc.gov.co, l_sismologia-rsnc@sgc.gov.co, rsncol@sgc.gov.co"# nperez@sgc.gov.co"
     asunto = "ESTO ES UNA PRUEBA!!!Sismo internacional reportado como sentido en Colombia, %s"%(region) 
     mensaje1=open('sismo.boletin').read()%(strd,localtime.split(' ')[0],localtime.split(' ')[1],date,hour,M,region,lat,lon,dep,M,source,link)
     
@@ -55,13 +55,14 @@ def correo(source,date,hour,lat,lon,dep,M,region,ID,mapa, link):
     server.starttls()
     server.login(remitente,passw)
     
+    region = '_'.join(region.split())
     #Pregunta si se desea enviar correos
     u=raw_input('Para enviar el correo e insertar la informacin a la base de datos digite 1, de lo contrario enter: \n')
     #Envía correos
     if u=='1':
         server.sendmail(remitente, destinatario.split(", "), msg.as_string())
 	#print type(source),type(date),type(hour),type(lat),type(lon),type(dep),type(M),type(region)
-        #system('sh conexion.sh %s %s %s %s %s %s %s %s %s '%(ID,source,date,hour,lat,lon,dep,M,region))
+        system('sh conexion.sh %s %s %s %s %s %s %s %s %s %s %s'%(ID,source,date,hour,lat,lon,dep,M,region,localtime.split()[0], localtime.split()[1]))
 	#system('sh /mnt/internacionales/pruebas/sismosinternacionales/internacionales-yo.sh %s %s %s %s %s %s %s' %(lat,lon,dep,M,'prueba',date,hour))
 	print 'envio parametros'
     else: print 'No se enviÃ³ correo'
