@@ -91,14 +91,14 @@ if o=='1':
     map = EQ_map(lon,lat,M.split(' ')[1],source,region, GFZ_ID)
     correo(source,date,hour,lat,lon,dep,M.split(' ')[1],region,GFZ_ID,map, link_gfz2)
     sfile_name=sfile_builder(date,hour,lat,lon,dep,M.split(' ')[1],'G')
-    os.chmod(sfile_name,stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
+    #os.chmod(sfile_name,stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
     print sfile_name
 elif o=='2':
     print '=======USGS======='
     map = EQ_map(lon2,lat2,M.split(' ')[1],source2,region2, USGS_ID)
     correo(source2,date2,hour2,lat2,lon2,dep2,M2.split(' ')[1],region2,USGS_ID,map, link_usgs2)
     sfile_name=sfile_builder(date2,hour2,lat2,lon2,dep2,M2.split(' ')[1],'N')
-    os.chmod(sfile_name,stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
+    #os.chmod(sfile_name,stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
     print sfile_name
 else:
 	sys.exit()	    
