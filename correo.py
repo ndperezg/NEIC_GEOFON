@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Funci髇 que realiza el env韔 de correos con informaci髇 obtenida de redes internacionales (NEIC, GEOFON)
+Funci贸n que realiza el env铆o de correos con informaci贸n obtenida de redes internacionales (NEIC, GEOFON)
 v(1) 2016-05-21
 autor: Daniel Siervo
 e-mail: dsiervo@sgc.gov.co
@@ -12,7 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from os import system
 from datetime import datetime, timedelta
-import time
+##import time
 
 def correo(source,date,hour,lat,lon,dep,M,region,ID,mapa, link):
     
@@ -27,13 +27,13 @@ def correo(source,date,hour,lat,lon,dep,M,region,ID,mapa, link):
     #lee datos del remitente
     datosr=open('remitente.txt','r').readlines()
     
-    #Prepara correos electr髇icos con informaci髇 del sismo.boletin
+    #Prepara correos electr贸nicos con informaci贸n del sismo.boletin
     print 'Preparando correo...'
     remitente = datosr[0] 
     passw= datosr[1]
-    destinatario = "hchamorro@sgc.gov.co, l_analistas-rsnc@sgc.gov.co, l_sismologia-rsnc@sgc.gov.co, rsncol@sgc.gov.co"# nperez@sgc.gov.co"
+    destinatario = "dsiervo@sgc.gov.co, ddsiervop@unal.edu.co"# nperez@sgc.gov.co"
     asunto = "ESTO ES UNA PRUEBA!!!Sismo internacional reportado como sentido en Colombia, %s"%(region) 
-    mensaje1=open('sismo.boletin').read()%(strd,localtime.split(' ')[0],localtime.split(' ')[1],date,hour,M,region,lat,lon,dep,M,source,link)
+    mensaje1=open('sismo.boletin').read()%(strd[0:19],localtime.split(' ')[0],localtime.split(' ')[1],date,hour,M,region,lat,lon,dep,M,source,link)
     
     #Prepara asunto y remitentes
     msg = MIMEMultipart()
@@ -50,21 +50,27 @@ def correo(source,date,hour,lat,lon,dep,M,region,ID,mapa, link):
     print mensaje1
     msg.attach(text)    
     
-    #inicia servicio de env韔 de correos
+    #inicia servicio de env铆o de correos
     server = smtplib.SMTP('smtp.gmail.com:587') 
     server.starttls()
     server.login(remitente,passw)
     
     region = '_'.join(region.split())
     #Pregunta si se desea enviar correos
-    u=raw_input('Para enviar el correo e insertar la informacin a la base de datos digite 1, de lo contrario enter: \n')
-    #Env韆 correos
+    u=raw_input('Ingrese 1, 2, 3 o 4 deacuerdo a las siguientes opciones, enter para salir:\n\n \t1. Enviar bolet铆n por correo \n \t2. Publicar \t \n\t3. Enviar correo y publicar \n\t4. Actualizar informaci贸n en la p谩gina \n\n \t======: ')
+    #Env铆a correos
     if u=='1':
         server.sendmail(remitente, destinatario.split(", "), msg.as_string())
-	#print type(source),type(date),type(hour),type(lat),type(lon),type(dep),type(M),type(region)
-        system('sh conexion.sh %s %s %s %s %s %s %s %s %s %s %s'%(ID,source,date,hour,lat,lon,dep,M,region,localtime.split()[0], localtime.split()[1]))
-	#system('sh /mnt/internacionales/pruebas/sismosinternacionales/internacionales-yo.sh %s %s %s %s %s %s %s' %(lat,lon,dep,M,'prueba',date,hour))
-	print 'envio parametros'
-    else: print 'No se envi贸 correo'
+        print 'Enviando correo...'
+	
+    elif u=='2':
+        system('sh conexion.sh %s %s %s %s %s %s %s %s %s %s %s'%(ID,source,date,hour,lat,lon,dep,M,region,strd.split()[0], strd.split()[1]))
+        print 'envi贸 parametros a la base'
+    elif u=='3':
+        server.sendmail(remitente, destinatario.split(", "), msg.as_string())
+        system('sh conexion.sh %s %s %s %s %s %s %s %s %s %s %s'%(ID,source,date,hour,lat,lon,dep,M,region,strd.split()[0], strd.split()[1]))
+    elif u=='4':
+        system('sh conexion.sh %s %s %s %s %s %s %s %s %s %s %s'%(ID,source,date,hour,lat,lon,dep,M,region,strd.split()[0], strd.split()[1]))
+    else: print 'envi贸 parametros a la base'
     
     server.quit()

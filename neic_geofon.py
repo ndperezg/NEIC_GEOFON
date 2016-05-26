@@ -21,7 +21,7 @@ def geofon_event_printer(file_, source, summary, title):
 
 def neic_event_printer(file_, source, date, lat, lon, dep, title):
 	print >> file_, source+"\t"+date+"\t"+lat+"\t"+lon+"\t"+dep+"\t"+title
-
+print '\n'
 #Parsing the url's
 link_usgs = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.atom"
 link_usgs2 = "http://earthquake.usgs.gov/"
@@ -50,7 +50,7 @@ event_printer(file_, source, date, hour, lat, lon, dep, M, region)
 if not os.path.isfile(str(gfz.entries[0]['id'])+".jpg"):
     try:
         gfzmap = urllib.URLopener()
-        map_geofon = GFZ_ID+".jpg"
+        map_geofon = GFZ_ID+"gfz1.jpg"
         gfzmap.retrieve(gfz.entries[0]['links'][1]['href'],map_geofon)
         os.chmod(str(gfz.entries[0]['id'])+".jpg",stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
     except:
@@ -83,18 +83,21 @@ else:
 
 file_.close()
 
-o=raw_input('Digite 1 o 2 para enviar correos de alguna de las 2 fuentes, 0 para no hacer nada: \n')
-print o
+o=raw_input('Digite 1 o 2 para escoger entre alguna de las 2 fuentes, enter para salir: \n\n=============: ')
 
 if o=='1':
-    print '========GFZ======='
+    print '======================='
+    print '========= GFZ ========='
+    print '======================='
     map = EQ_map(lon,lat,M.split(' ')[1],source,region, GFZ_ID)
     correo(source,date,hour,lat,lon,dep,M.split(' ')[1],region,GFZ_ID,map, link_gfz2)
     sfile_name=sfile_builder(date,hour,lat,lon,dep,M.split(' ')[1],'G')
     #os.chmod(sfile_name,stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
     print sfile_name
 elif o=='2':
-    print '=======USGS======='
+    print '========================'
+    print '========= USGS ========='
+    print '========================'
     map = EQ_map(lon2,lat2,M.split(' ')[1],source2,region2, USGS_ID)
     correo(source2,date2,hour2,lat2,lon2,dep2,M2.split(' ')[1],region2,USGS_ID,map, link_usgs2)
     sfile_name=sfile_builder(date2,hour2,lat2,lon2,dep2,M2.split(' ')[1],'N')
